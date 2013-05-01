@@ -1,0 +1,146 @@
+<?php
+	session_start();
+	include "header.php"; 
+	include "gallery.php";
+	
+
+	$maxlen = 60;
+
+	?>
+<div class="imagecol">
+
+
+	<?
+
+	$tag="dagestan"; 
+	$response=getByTag($tag);
+	unset($_SESSION['response']);
+	$_SESSION['response']=$response;
+	
+	$len=count($response->data);
+    for ($i=0; $i < $len  ; $i++) { 
+    	$thumbnail=$response->data[$i]->images->low_resolution->url;
+    	$link=$response->data[$i]->images->standard_resolution->url;
+    	$author=$response->data[$i]->user->username;
+    	$likes=$response->data[$i]->likes->count;
+    	$comments=$response->data[$i]->comments->count;
+    	if (isset($response->data[$i]->caption->text)) {
+    		$text=$response->data[$i]->caption->text;
+    		$shorttext=cutString($text,$maxlen);
+    	if (strlen($shorttext)<=3) {
+    		$shorttext=substr($text, 0, 54);
+    	}}
+    	$id=$response->data[$i]->id;
+    	
+    	?>
+
+    	<div class="imagediv">
+		
+			<div class="image">
+				<p>by: @<?=$_SESSION['pageno1'] ?></p>
+				<a href=imageview.php?id=<?=$i ?> ><img src=<?=$thumbnail ?>></a>
+			</div>
+			<div class="info">
+				<p>Нравится: <?=$likes?>. Комментариев: <?=$comments?> </p>
+				<p><?=$shorttext ?></p>
+			</div>
+			</div>
+    <?}?>
+    
+
+
+
+
+
+
+    </div>
+    <div class="imagecol">
+    	
+
+	<? $response=getByTag("кавказ");
+	$len=count($response->data);
+    for ($i=0; $i < $len  ; $i++) { 
+    	$thumbnail=$response->data[$i]->images->low_resolution->url;
+    	$link=$response->data[$i]->images->standard_resolution->url;
+    	$author=$response->data[$i]->user->username;
+    	$likes=$response->data[$i]->likes->count;
+    	$comments=$response->data[$i]->comments->count;
+    	if (isset($response->data[$i]->caption->text)) {
+    		$text=$response->data[$i]->caption->text;
+    		$shorttext=cutString($text,$maxlen);
+    	if (strlen($shorttext)<=3) {
+    		$shorttext=substr($text, 0, 54);
+    	}}
+    	?>
+    	<div class="imagediv">
+			
+			<div class="image">
+				<p>by: @<?=$author ?></p>
+				<a href=imageview.php?id= <?=$i ?> ><img src=<?=$thumbnail ?>></a>
+				
+						
+				
+			</div>
+			<div class="info">
+				<p>Нравится: <?=$likes?>. Комментариев: <?=$comments?> </p>
+				<p><?=$shorttext ?></p>
+			</div>
+			</div>
+    <?}?>
+    <? if ($_SESSION['pageno2'] > 0) 
+	{ 
+        echo "<a href=\"?pageno2=0\">first</a>"; 
+        echo "<a href=\"?pageno2=" . ($_SESSION['pageno2'] - 1) . "\">prev</a>"; 
+	} 
+	if (isset($response->pagination->next_url)) 
+        echo "<a href=\"?pageno2=" . ($_SESSION['pageno2'] + 1) . "\">next</a>"; 
+    ?>
+		</div>
+    
+
+    <div class="imagecol">
+    	
+
+	<? $response=getByTag("анжи");
+	$len=count($response->data);
+    for ($i=0; $i < $len  ; $i++) { 
+    	$thumbnail=$response->data[$i]->images->low_resolution->url;
+    	$link=$response->data[$i]->images->standard_resolution->url;
+    	$author=$response->data[$i]->user->username;
+    	$likes=$response->data[$i]->likes->count;
+    	$comments=$response->data[$i]->comments->count;
+    	if (isset($response->data[$i]->caption->text)) {
+    		$text=$response->data[$i]->caption->text;
+    		$shorttext=cutString($text,$maxlen);
+    	if (strlen($shorttext)<=3) {
+    		$shorttext=substr($text, 0, 54);
+    	}}
+    	?>
+    	<div class="imagediv">
+			
+			<div class="image">
+				<p>by: @<?=$author ?></p>
+				<a href=imageview.php?id=<?=$i ?> ><img src=<?=$thumbnail ?>></a>
+
+			</div>
+			<div class="info">
+				<p>Нравится: <?=$likes?>. Комментариев: <?=$comments?> </p>
+				<p><?=$shorttext ?></p>
+			</div>
+			</div>
+    <?}?>
+    <? if ($_SESSION['pageno3'] > 0) 
+	{ 
+        echo "<a href=\"?pageno3=0\">first</a>"; 
+        echo "<a href=\"?pageno3=" . ($_SESSION['pageno3'] - 1) . "\">prev</a>"; 
+	} 
+	if (isset($response->pagination->next_url)) 
+        echo "<a href=\"?pageno3=" . ($_SESSION['pageno3'] + 1) . "\">next</a>"; 
+    ?>
+		</div>
+    </div>
+
+
+	
+
+	<?// include "footer.php"; ?>
